@@ -1,29 +1,47 @@
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
-  type: {
-    type: String,
-    default: 'default',
-    validator(value, props) {
-      return ['green', 'red', 'default'].includes(value)
-    }
+  clickable: {
+    type: Boolean,
+    default: false
+  },
+  active: {
+    type: Boolean,
+    default: false
   }
 })
+const emits = defineEmits(['click'])
+
+const classClickable = computed(() => (props.clickable ? 'clickable' : undefined))
+const classActive = computed(() => (props.active ? 'active' : undefined))
+
+function handleClick() {
+  if (props.clickable) {
+    emits('click')
+  }
+}
 </script>
 
 <template>
-  <button :class="$style[props.type]" />
+  <div :class="[$style.card, $style[classClickable], $style[classActive]]" @click="handleClick">
+    <slot />
+  </div>
 </template>
 
 <style module>
-.default {
-  background: var(--vt-c-black-soft);
+.card {
+  border: 1px solid black;
+  text-align: center;
+  padding: 0.5rem 1rem;
 }
 
-.greeen {
-  background: var(--green-500);
+.clickable {
+  cursor: pointer;
 }
 
-.red {
-  background: var(--red-500);
+.active {
+  background: black;
+  color: white;
 }
 </style>
