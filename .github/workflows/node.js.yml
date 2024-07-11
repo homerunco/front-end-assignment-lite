@@ -27,8 +27,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: 'trivia/package-lock.json'
-    - run: cd trivia
-    - run: npm ci
-    - run: npm run build
-    - run: npm run lint
-    - run: npm test:unit
+    - run: cd trivia && npm ci
+    - run: cd trivia && npm run build
+    - run: cd trivia && npm run lint
+    - run: cd trivia && npm test:unit
